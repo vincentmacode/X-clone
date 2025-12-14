@@ -40,6 +40,33 @@ textarea {
     resize: none;
 }
 
+/* tweet layout */
+.tweet {
+    border-top: 1px solid lightgray;
+    padding: 20px 0 0 0;
+    width: 100%;
+    margin: 15px 0;
+}
+
+.tweet-inner {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+/* tweet details layout */
+.tweet-details {
+    display: flex;
+    font-size: 13px;
+    justify-content: space-between;
+    width: 160px;
+}
+
+.tweet-detail {
+    display: flex;
+    gap: 4px;
+}
+
 button {
     background-color: #1da1f2;
     border: none;
