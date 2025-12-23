@@ -12,6 +12,15 @@ h1{
     font-size: 20px;
 }
 
+i{
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.fa-solid{
+    color: #999;
+}
+
 .liked{
     color: red;
 }
@@ -24,9 +33,6 @@ h1{
 main, header {
     width: 290px;
     margin: 0 auto;
-}
-
-header {
     padding-bottom: 25px;
 }
 
@@ -46,6 +52,16 @@ textarea {
     font-size: 20px;
     line-height: 30px;
     resize: none;
+}
+button {
+    background-color: #1da1f2;
+    border: none;
+    color: white;
+    padding: 10px 19px;
+    border-radius: 20px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 /* tweet layout */
@@ -75,21 +91,29 @@ textarea {
     gap: 4px;
 }
 
-button {
-    background-color: #1da1f2;
-    border: none;
-    color: white;
-    padding: 10px 19px;
-    border-radius: 20px;
-    width: 100%;
-    font-size: 16px;
-    font-weight: 600;
-
+.tweet-reply{
+    border-top: 1px solid lightgray;
+    padding: 20px 0 0 0px;
+    margin: 10px 0 10px 40px;
+    width: 80%;
 }
+
+.handle{
+    font-size: 12px;
+    font-weight: 500;
+    color: #555;
+    margin-top: 0;
+}
+
 /* profile image */
 .profile-pic {
     border: 1px solid lightgray;
     border-radius: 50%;
     width: 48px;
+}
+
+/* Utility */
+.hidden{
+    display: none;
 }
 
