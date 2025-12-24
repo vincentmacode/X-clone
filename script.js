@@ -1,63 +1,80 @@
 import { tweetsData } from './data.js';
-const tweetInput = document.getElementById('tweet-input');
-const tweetBtn = document.getElementById('tweet-btn');
+import { v4 as uuidv4 } from "https://cdn.jsdelivr.net/npm/uuid@13.0.0/+esm";
+    
+    //Universal Event Listener
+    document.addEventListener('click', function(e){
+        if (e.target.dataset.like){
+            handleLikeClick(e.target.dataset.like)
+        }
+        else if (e.target.dataset.retweet){
+            handleRetweetClick(e.target.dataset.retweet)
+        }
+        else if (e.target.dataset.reply){
+            handleReplyClick(e.target.dataset.reply)
+        }
+        else if (e.target.id === 'tweet-btn'){
+            handleTweetBtnClick()
+        }
+    })
+    
+    //handle like click
+    function handleLikeClick(tweetId){
+        const targetTweetObj = tweetsData.filter(function(tweet){
+            return tweet.uuid === tweetId
+        })[0]
+        if (targetTweetObj.isLiked){
+            targetTweetObj.likes--
+        } else {
+            targetTweetObj.likes++
+        }
+        targetTweetObj.isLiked = !targetTweetObj.isLiked
+        render()
+    }
+    
+    //handle retweet click
+    function handleRetweetClick(tweetId){
+        const targetTweetObj = tweetsData.filter(function(tweet){
+            return tweet.uuid === tweetId
+        })[0]
+        if (targetTweetObj.isRetweeted){
+            targetTweetObj.retweets--
+        }
+        else {
+            targetTweetObj.retweets++
+        }
+        targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
+        render()
+    }
+    
+    //handle reply click 
+    function handleReplyClick(replyId){
+        document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
+    }
+    
+    //handle tweet btn
+    function handleTweetBtnClick(){
+        const tweetInput = document.getElementById('tweet-input');
+        
+        if (tweetInput.value){
 
-tweetBtn.addEventListener('click', function(){
-    console.log(tweetInput.value)
-})
-
-//increment likes, retweets
-document.addEventListener('click', function(e){
-    if (e.target.dataset.like){
-        handleLikeClick(e.target.dataset.like)
-    }
-    else if (e.target.dataset.retweet){
-        handleRetweetClick(e.target.dataset.retweet)
-    }
-    else if (e.target.dataset.reply){
-        handleReplyClick(e.target.dataset.reply)
-    }
-})
-
-//handle like click
-function handleLikeClick(tweetId){
-    const targetTweetObj = tweetsData.filter(function(tweet){
-        return tweet.uuid === tweetId
-    })[0]
-    if (targetTweetObj.isLiked){
-        targetTweetObj.likes--
-    } else {
-        targetTweetObj.likes++
-    }
-    targetTweetObj.isLiked = !targetTweetObj.isLiked
-    render()
-}
-
-//handle retweet click
-function handleRetweetClick(tweetId){
-    const targetTweetObj = tweetsData.filter(function(tweet){
-        return tweet.uuid === tweetId
-    })[0]
-    if (targetTweetObj.isRetweeted){
-        targetTweetObj.retweets--
-    }
-    else {
-        targetTweetObj.retweets++
-    }
-    targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
-    render()
-}
-
-//handle reply click 
-function handleReplyClick(replyId){
-    document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
+            tweetsData.unshift({
+                handle: `@Scrimba`,
+                profilePic: `images/scrimbalogo.png`,
+                likes: 0,
+                retweets: 0,
+                tweetText: tweetInput.value,
+                replies: [],
+                isLiked: false,
+                isRetweeted: false,
+                uuid: uuidv4()
+            })
+            render()
+            tweetInput.value = ''
+        }
 }
 
 function getFeedHtml(){
     let feedHtml = ``
-
-    
-    
     tweetsData.forEach(function(tweet){
         
         //adding css to like icon
@@ -74,7 +91,6 @@ function getFeedHtml(){
 
         //reply layout
         let repliesHtml = ''
-
         if(tweet.replies.length > 0){
             tweet.replies.forEach(function(reply){
                 repliesHtml += `
@@ -126,6 +142,7 @@ function getFeedHtml(){
     })
     return feedHtml
 }
+
 // render content to feed
 function render(){
     const feed = document.getElementById('feed')
